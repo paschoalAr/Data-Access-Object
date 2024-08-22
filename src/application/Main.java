@@ -1,6 +1,9 @@
 package application;
 
+import java.util.Date;
+
 import entities.Department;
+import entities.Seller;
 import util.ConexaoMysql;
 
 public class Main {
@@ -10,9 +13,10 @@ public class Main {
 
         db.OpenDatabase();
 
-        Department dep = new Department(1, "Teste");
+        Department dp = new Department(1, "teste");
+        Seller seller = new Seller(1, "a", "a", new Date(), 50000.00, dp);
 
-        System.out.println(dep);
+        System.out.println(seller);
         
     }
 }
