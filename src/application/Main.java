@@ -1,10 +1,8 @@
 package application;
 
-import java.util.Date;
-
-import entities.Department;
-import entities.Seller;
+import interfacesDao.SellerDao;
 import util.ConexaoMysql;
+import util.DaoFactory;
 
 public class Main {
 
@@ -13,10 +11,7 @@ public class Main {
 
         db.OpenDatabase();
 
-        Department dp = new Department(1, "teste");
-        Seller seller = new Seller(1, "a", "a", new Date(), 50000.00, dp);
-
-        System.out.println(seller);
+        SellerDao sellseDao = DaoFactory.creatSellerDao();
         
     }
 }

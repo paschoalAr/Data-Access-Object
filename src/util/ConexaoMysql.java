@@ -9,7 +9,6 @@ public class ConexaoMysql {
 
     private Connection dbconn = null;
     private Statement sqlmgr = null;
-    private ResultSet resultsql = null;
 
     public void OpenDatabase() {
 

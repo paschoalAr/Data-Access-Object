@@ -1,19 +1,19 @@
-package interfacesDAO;
+package interfacesDao;
 
-import entities.Department;
+import entities.Seller;
 
 import java.util.List;
 
 public interface SellerDao {
 
-    void insert(Department dep);
+    void insert(Seller dep);
 
-    void update(Department dep);
+    void update(Seller dep);
 
     void deleteById(Integer id);
 
-    Department findById(Integer id);
+    Seller findById(Integer id);
 
-    List<Department> findAll();
-    
-} 
+    List<Seller> findAll();
+
+}
