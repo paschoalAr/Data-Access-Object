@@ -3,6 +3,7 @@ package ImplInterfacesDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Department;
@@ -63,8 +64,29 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 
     @Override
     public List<Department> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        String sql = "select * from department";
+
+        List<Department> listDepartments = new ArrayList<>();
+
+        try {
+            pst = conn.prepareStatement(sql);
+
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Department dep = new Department(rs.getInt("Id"), rs.getString("Name"));
+
+                listDepartments.add(dep);
+            }
+
+            return listDepartments;
+        } catch (Exception e) {
+            System.out.println("Erro ao executar a funcao findAll na tabela department \n" + e.getMessage());
+        }
+
+        return null;
     }
     
 }

@@ -3,6 +3,7 @@ package application;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 import entities.Department;
 import interfacesDao.DepartmentDao;
@@ -20,9 +21,9 @@ public class Main {
 
         DepartmentDao depDao = DaoFactory.createDepartmentDao(conn);
 
-        Department dep = depDao.findById(2);
+        List<Department> Listdep = depDao.findAll();
 
-        System.out.println(dep);
+        Listdep.forEach(System.out:: println);
 
         db.CloseDatabase();
     }
