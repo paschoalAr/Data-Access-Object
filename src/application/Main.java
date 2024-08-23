@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import interfacesDao.SellerDao;
+import entities.Department;
+import interfacesDao.DepartmentDao;
 import util.ConexaoMysql;
 import util.DaoFactory;
 
@@ -17,9 +18,11 @@ public class Main {
         Connection conn = null;
         conn = db.getConnection(conn);
 
-        SellerDao sellerDao = DaoFactory.creatSellerDao(conn);
+        DepartmentDao depDao = DaoFactory.createDepartmentDao(conn);
 
-        sellerDao.deleteById(20);
+        Department dep = depDao.findById(2);
+
+        System.out.println(dep);
 
         db.CloseDatabase();
     }
