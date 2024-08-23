@@ -23,10 +23,6 @@ public class SellerDaoJDBC implements SellerDao {
         this.conn = conn;
     }
 
-    public SellerDaoJDBC() {
-        // TODO Auto-generated constructor stub
-    }
-
     @Override
     public void insert(Seller seller) {
         PreparedStatement pst = null;
@@ -88,8 +84,24 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void deleteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        PreparedStatement pst = null;
+
+        String sql = "delete from seller where id = ?";
+
+        try {
+            pst = conn.prepareStatement(sql);
+
+            pst.setInt(1, id);
+
+            int rowsAffected = pst.executeUpdate();
+
+            if(rowsAffected == 0){
+                throw new SQLException("Nenhuma linha deletada \n -Id inexistente");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao executar a função deleteById na tabela seller \n " + e.getMessage());
+        }
     }
 
     @Override
