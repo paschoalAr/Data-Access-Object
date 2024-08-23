@@ -1,11 +1,26 @@
 package ImplInterfacesDao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
 import java.util.List;
 
+import entities.Department;
 import entities.Seller;
 import interfacesDao.SellerDao;
 
-public class SellerDaoJDBC implements SellerDao{
+public class SellerDaoJDBC implements SellerDao {
+
+    private Connection conn;
+
+    public SellerDaoJDBC(Connection conn) {
+        this.conn = conn;
+    }
+
+    public SellerDaoJDBC() {
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void insert(Seller dep) {
@@ -27,8 +42,33 @@ public class SellerDaoJDBC implements SellerDao{
 
     @Override
     public Seller findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        String sql = "select seller.*, department.Name as DepName from seller join department " +
+                "on department.Id = seller.DepartmentId " +
+                "where seller.Id = ?";
+        try {
+            pst = conn.prepareStatement(sql);
+
+            pst.setInt(1, id);
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                Department dep = new Department((Integer) rs.getInt("DepartmentId"), rs.getString("DepName"));
+
+                Seller seller = new Seller(id, rs.getString("Name"), rs.getString("Email"), (Date) rs.getDate("BirthDate"), rs.getDouble("BaseSalary"), dep);
+                
+                return seller;
+            } 
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao executar a função findById \n " + e.getMessage());
+        }
+
+        return null;
     }
 
     @Override
@@ -36,5 +76,5 @@ public class SellerDaoJDBC implements SellerDao{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
-    
+
 }

@@ -42,4 +42,14 @@ public class ConexaoMysql {
         }
         return -1;
     }
+
+    public Connection getConnection(Connection conn){
+        try {
+            return conn = DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
 }
