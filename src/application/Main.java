@@ -22,12 +22,17 @@ public class Main {
 
         SellerDao sellerDao = DaoFactory.creatSellerDao(conn);
 
-        Department dep = new Department(1, "Computers");
+        Seller seller = sellerDao.findById(1);
 
-        Seller seller = new Seller(null, "João", "joao@gmail.com",
-                new java.util.Date(sdf.parse("16/03/2005").getTime()), 8000.0, dep);
+        System.out.println(seller);
 
-        sellerDao.insert(seller);
+        seller.setBaseSalary(600.0);
+
+        sellerDao.update(seller);
+
+        seller = sellerDao.findById(1);
+
+        System.out.println(seller);
 
         db.CloseDatabase();
     }
