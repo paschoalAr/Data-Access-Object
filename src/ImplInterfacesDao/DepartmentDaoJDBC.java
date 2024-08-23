@@ -3,6 +3,8 @@ package ImplInterfacesDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,29 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 
     @Override
     public void insert(Department dep) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        PreparedStatement pst = null;
+
+        String sql = "insert into department (Name) values (?)";
+
+        try {
+            pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pst.setString(1, dep.getName());
+
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet rs = pst.getGeneratedKeys();
+                if (rs.next()){
+                    int id = rs.getInt(1);
+                    dep.setId(id);
+                }
+            } else {
+                throw new SQLException("Nenhuma linha adicionada");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao executar a funcao insert na tabela department \n" + e.getMessage());
+        }
     }
 
     @Override

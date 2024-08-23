@@ -21,10 +21,14 @@ public class Main {
 
         DepartmentDao depDao = DaoFactory.createDepartmentDao(conn);
 
-        List<Department> Listdep = depDao.findAll();
+        Department dep = new Department(null,"Buy");
 
-        Listdep.forEach(System.out:: println);
+        depDao.insert(dep);
 
+        List<Department> listDepartments = depDao.findAll();
+
+        listDepartments.forEach(System.out:: println);
+        
         db.CloseDatabase();
     }
 }
