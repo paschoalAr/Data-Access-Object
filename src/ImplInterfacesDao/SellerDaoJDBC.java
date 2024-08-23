@@ -3,6 +3,8 @@ package ImplInterfacesDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,13 +28,40 @@ public class SellerDaoJDBC implements SellerDao {
     }
 
     @Override
-    public void insert(Seller dep) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+    public void insert(Seller seller) {
+        PreparedStatement pst = null;
+        
+        String sql = "insert into seller (Name, Email, BirthDate, BaseSalary, DepartmentId) values" +
+                "(?,?,?,?,?)"; 
+
+        try {
+            pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pst.setString(1, seller.getName());
+            pst.setString(2, seller.getEmail());
+            pst.setDate(3, new java.sql.Date(seller.getBirthDate().getTime()));
+            pst.setDouble(4, seller.getBaseSalary());
+            pst.setInt(5, seller.getDepartment().getId());
+
+            int rowsAffected = pst.executeUpdate();
+
+            if(rowsAffected > 0){
+                ResultSet rs = pst.getGeneratedKeys();
+                if (rs.next()){
+                    int id = rs.getInt(1);
+                    seller.setId(id);
+                }
+            } else{
+                throw new SQLException("Nenhuma linha adicionada");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao executar a função insert na tabela seller \n " + e.getMessage());
+        }
     }
 
     @Override
-    public void update(Seller dep) {
+    public void update(Seller seller) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -70,7 +99,7 @@ public class SellerDaoJDBC implements SellerDao {
             }
             return null;
         } catch (Exception e) {
-            System.out.println("Erro ao executar a função findById \n " + e.getMessage());
+            System.out.println("Erro ao executar a função findById na tabela seller\n " + e.getMessage());
         }
 
         return null;
@@ -111,7 +140,7 @@ public class SellerDaoJDBC implements SellerDao {
 
             return listSellers;
         } catch (Exception e) {
-            System.out.println("Erro ao executar a função findAll \n " + e.getMessage());
+            System.out.println("Erro ao executar a função findAll na tabela seller \n " + e.getMessage());
         }
 
         return null;
@@ -156,7 +185,7 @@ public class SellerDaoJDBC implements SellerDao {
             return listSellers;
 
         } catch (Exception e) {
-            System.out.println("Erro ao executar a função findByDepartment \n " + e.getMessage());
+            System.out.println("Erro ao executar a função findByDepartment na tabela seller \n " + e.getMessage());
         }
 
         return null;
