@@ -21,13 +21,14 @@ public class Main {
 
         DepartmentDao depDao = DaoFactory.createDepartmentDao(conn);
 
-        Department dep = depDao.findById(1);
-
-        dep.setName("finances");
-
-        depDao.update(dep);
-
         List<Department> listDepartments = depDao.findAll();
+
+        listDepartments.forEach(System.out:: println);
+        
+        depDao.deleteById(10);
+        System.out.println("-");
+
+        listDepartments = depDao.findAll();
 
         listDepartments.forEach(System.out:: println);
         
