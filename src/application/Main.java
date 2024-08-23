@@ -21,9 +21,11 @@ public class Main {
 
         DepartmentDao depDao = DaoFactory.createDepartmentDao(conn);
 
-        Department dep = new Department(null,"Buy");
+        Department dep = depDao.findById(1);
 
-        depDao.insert(dep);
+        dep.setName("finances");
+
+        depDao.update(dep);
 
         List<Department> listDepartments = depDao.findAll();
 
